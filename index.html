@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>MARKOV ARCANA｜マルコフ・アルカナ</title>
+  <meta name="description" content="前の一枚が、次の一枚を変える。大アルカナ22枚によるマルコフ連鎖。">
+  <meta property="og:title" content="MARKOV ARCANA｜マルコフ・アルカナ">
+  <meta property="og:description" content="前の一枚が、次の一枚を変える。大アルカナ22枚によるマルコフ連鎖。">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://mugennatto.github.io/markov-arcana/ogp.png">
+  <meta property="og:url" content="https://mugennatto.github.io/markov-arcana/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0d0e14">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◈</text></svg>">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: #0d0e14; }
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background: linear-gradient(180deg, #0d0e14 0%, #14151d 100%);
+      color: #ece7da;
+      font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+    }
+    .page { display: flex; justify-content: center; min-height: 100vh; padding: 32px 16px 48px; }
+    .app { width: 100%; max-width: 420px; }
+    .title { text-align: center; font-size: 13px; letter-spacing: .15em; color: #8b8b95; font-family: system-ui,-apple-system,sans-serif; margin-bottom: 28px; }
+    .history { display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:24px; font-family:system-ui,-apple-system,sans-serif; }
+    .history-item { display:flex; align-items:center; gap:6px; }
+    .history-chip { font-size:12px; color:#5c5c66; padding:2px 8px; border:1px solid #33333d; border-radius:3px; }
+    .history-chip.active { color:#b8925a; border-color:#b8925a; }
+    .history-arrow { color:#4a4a54; font-size:12px; }
+    .card-frame { max-width:340px; margin:0 auto; border:1px solid #3a3226; border-radius:5px; overflow:hidden; background:#101118; box-shadow:0 14px 38px rgba(0,0,0,.28); }
+    .card-frame img { display:block; width:100%; height:auto; }
+    .transition-label { text-align:center; font-size:12px; color:#6f6f7a; font-family:system-ui,sans-serif; margin-top:12px; }
+    .empty-state { border:1px solid #3a3226; border-radius:4px; padding:70px 24px; text-align:center; background:rgba(184,146,90,.04); font-size:15px; color:#8b8b95; font-family:system-ui,sans-serif; line-height:1.8; }
+    .interpretation { min-height:90px; margin-top:20px; padding:0 4px; font-size:15px; line-height:1.9; color:#d8d3c6; font-family:system-ui,-apple-system,sans-serif; text-align:left; }
+    .actions { display:flex; flex-direction:column; gap:10px; margin-top:24px; }
+    button { width:100%; border-radius:4px; padding:14px 18px; font-size:14px; letter-spacing:.06em; cursor:pointer; font-family:system-ui,-apple-system,sans-serif; transition:transform .12s ease, opacity .12s ease; }
+    button:active { transform:translateY(1px); }
+    .draw { border:1px solid #b8925a; background:#b8925a; color:#111217; font-weight:700; }
+    .reset { border:1px solid #34343e; background:transparent; color:#777781; }
+    .note { margin-top:24px; text-align:center; color:#55555f; font:11px/1.7 system-ui,-apple-system,sans-serif; }
+    .fade { animation: markovFade .5s ease; }
+    @keyframes markovFade { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+    @media (max-width: 480px) { .page { padding-top:24px; } .card-frame { max-width: min(340px, 88vw); } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="app" aria-label="マルコフ・アルカナ">
+      <div class="title">マルコフ・アルカナ</div>
+      <div id="history" class="history" hidden></div>
+      <div id="stage"></div>
+      <div id="interpretation" class="interpretation" aria-live="polite"></div>
+      <div class="actions">
+        <button id="drawBtn" class="draw" type="button">最初の一枚を引く</button>
+        <button id="resetBtn" class="reset" type="button" hidden>最初からやり直す</button>
+      </div>
+      <div class="note">22 Major Arcana × first-order Markov chain</div>
+    </section>
+  </main>
+  <script src="./app.js"></script>
+</body>
+</html>
